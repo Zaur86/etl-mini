@@ -1,0 +1,62 @@
+# Configuration for ElasticSearchService tests
+# To use mocks in tests, run pytest with the --use-mock option
+
+environment: "TEST"  # Environment: DEV, TEST, or PROD
+
+tests:
+  prepare_extraction:
+    - index: "some_index"
+      query_model:
+        start_time: "2025-01-01 00:00:00"
+        end_time: "2025-01-01 01:00:00"
+        source_fields:
+          - id
+          - timestamp
+          - status
+          - data.field1
+          - data.field2
+        filters: null
+
+  extract_data:
+    - index: "some_index"
+      query_model:
+        start_time: "2025-01-01 00:00:00"
+        end_time: "2025-01-01 01:00:00"
+        source_fields:
+          - id
+          - timestamp
+          - status
+          - data.field1
+          - data.field2
+        filters: null
+      batch_size: null
+      scroll: null
+      expected_results: 2
+
+    - index: "some_index"
+      query_model:
+        start_time: "2025-01-01 00:00:00"
+        end_time: "2025-01-01 01:00:00"
+        source_fields:
+          - id
+          - timestamp
+          - status
+          - data.field1
+          - data.field2
+        filters:
+          status: active
+      batch_size: null
+      scroll: null
+      expected_results: 2
+
+mocks:
+  search:
+    _scroll_id: dummy_scroll_id
+    hits:
+      hits:
+        - {"_id": "1", "_source": {"field1": "value1"}}
+        - {"_id": "2", "_source": {"field1": "value2"}}
+  scroll:
+    _scroll_id: dummy_scroll_id
+    hits:
+      hits: []

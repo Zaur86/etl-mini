@@ -1,0 +1,52 @@
+# Configuration for testing ElasticQueryModel
+range_tests:
+  # Test cases for range query with start_time and end_time
+  - start_time: null
+    end_time: null
+    expected_match_all: true
+  - start_time: "2025-01-01 00:00:00"
+    end_time: null
+    expected_match_all: true
+  - start_time: null
+    end_time: "2025-01-01 01:00:00"
+    expected_match_all: true
+  - start_time: "2025-01-01 00:00:00"
+    end_time: "2025-01-01 01:00:00"
+    expected_match_all: false
+
+filter_tests:
+  # Test cases for filter query
+  - filters:
+      status: active
+    expected_filter: true
+  - filters: null
+    expected_filter: false
+
+source_field_tests:
+  # Test cases for source fields selection
+  - source_fields:
+    - id
+    - timestamp
+    - status
+    - data.field1
+    - data.field2
+    start_time: "2025-01-01 00:00:00"
+    end_time: "2025-01-01 01:00:00"
+    expected_source: true
+  - source_fields:
+      - id
+      - timestamp
+      - status
+      - data.field1
+      - data.field2
+    start_time: null
+    end_time: null
+    expected_source: true
+  - source_fields: null
+    start_time: "2025-01-01 00:00:00"
+    end_time: "2025-01-01 01:00:00"
+    expected_source: false
+  - source_fields: null
+    start_time: null
+    end_time: null
+    expected_source: false

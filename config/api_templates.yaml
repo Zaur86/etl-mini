@@ -1,0 +1,6 @@
+appsflyer:
+  url:
+    https://hq1.appsflyer.com/api/raw-data/export/app/{APP_ID}/{REPORT_TYPE}/{API_VERSION}?from={DATE}&to={DATE}&additional_fields={ADDITIONAL_FIELDS}
+  headers:
+    Authorization: "Bearer {AF_TOKEN}"
+  method: "GET"
